@@ -16,16 +16,14 @@ class FaceDetector:
         max_size = self.scales[1]
         im_size_min = np.min(im_shape[0:2])
         im_size_max = np.max(im_shape[0:2])
-        #im_scale = 1.0
-        #if im_size_min>target_size or im_size_max>max_size:
         im_scale = float(target_size) / float(im_size_min)
         # prevent bigger axis from being more than max_size:
         if np.round(im_scale * im_size_max) > max_size:
             im_scale = float(max_size) / float(im_size_max)
 
-        self.scales = [im_scale]
+        scales = [im_scale]
         
-        faces, _ = self.detector.detect(img, threshold=self.thresh, scales=self.scales, do_flip=flip)
+        faces, _ = self.detector.detect(img, threshold=self.thresh, scales=scales, do_flip=flip)
 
         if faces is not None:
             n_faces = faces.shape[0]
