@@ -23,6 +23,7 @@ class FaceDetector:
 
         scales = [im_scale]
         
+        # extract faces and landmarks from image
         faces, _ = self.detector.detect(img, threshold=self.thresh, scales=scales, do_flip=flip)
 
         if faces is not None:
@@ -32,9 +33,11 @@ class FaceDetector:
             if blur:
                 line_thickness = max(1, int(img.shape[1] / 500.))
                 for bbox in bboxes:
+                    # bbox is [x1, y1, x2, y2]
                     sub_face = img[bbox[1]:bbox[3], bbox[0]:bbox[2]]
                     sub_face = cv2.GaussianBlur(sub_face,(45, 45), 30)
                     img[bbox[1]:bbox[1]+sub_face.shape[0], bbox[0]:bbox[0]+sub_face.shape[1]] = sub_face
+                    # draw a blue rect around face for displaying purposes
                     cv2.rectangle(img, tuple(bbox[0:2]), tuple(bbox[2:4]), color=(255,0,0), thickness=line_thickness)
 
             return n_faces, bboxes
