@@ -34,6 +34,7 @@ class FaceDetector:
                     sub_face = img[bbox[1]:bbox[3], bbox[0]:bbox[2]]
                     sub_face = cv2.GaussianBlur(sub_face,(45, 45), 30)
                     img[bbox[1]:bbox[1]+sub_face.shape[0], bbox[0]:bbox[0]+sub_face.shape[1]] = sub_face
+                    cv2.rectangle(img, tuple(bbox[0:2]), tuple(bbox[2:4]), color=(0,0,0), thickness=3)
 
             return n_faces, bboxes
         else:
