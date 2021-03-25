@@ -3,12 +3,12 @@ from .retinaface import RetinaFace
 import cv2
 
 class FaceDetector:
-    def __init__(self, thresh, scales=[1024, 1980], gpuid=0) -> None:
+    def __init__(self, thresh, scales=[1024, 1980], gpuid=0, base_dir='./model/R50') -> None:
         self.thresh = thresh
         self.scales = scales
         self.gpuid = gpuid
 
-        self.detector = RetinaFace('./model/R50', 0, self.gpuid, 'net3')
+        self.detector = RetinaFace(base_dir, 0, self.gpuid, 'net3')
 
     def predict(self, img, flip=False, blur: bool=False):
         im_shape = img.shape
