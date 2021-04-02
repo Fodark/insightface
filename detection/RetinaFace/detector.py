@@ -24,7 +24,7 @@ class FaceDetector:
         scales = [im_scale]
         
         # extract faces and landmarks from image
-        faces, _ = self.detector.detect(img, threshold=self.thresh, scales=scales, do_flip=flip)
+        faces, landmarks = self.detector.detect(img, threshold=self.thresh, scales=scales, do_flip=flip)
 
         if faces is not None:
             n_faces = faces.shape[0]
@@ -40,6 +40,12 @@ class FaceDetector:
                     # draw a blue rect around face for displaying purposes
                     cv2.rectangle(img, tuple(bbox[0:2]), tuple(bbox[2:4]), color=(255,0,0), thickness=line_thickness)
 
-            return n_faces, bboxes
+            #return n_faces, bboxes
         else:
-            return 0, []
+            n_faces = 0
+            bboxes = []
+        
+        if landmarks is not None:
+            return n_faces, bboxes, landmarks.shape[0], landmarks
+        else:
+            return n_faces, bboxes, 0, []
